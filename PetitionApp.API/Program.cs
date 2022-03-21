@@ -54,6 +54,7 @@ builder.Services.AddSwaggerGen(opt =>
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDbContext<PetitionAppDbContext>(options => options.UseNpgsql(appSettings.DbConnection, x => x.MigrationsAssembly("PetitionApp.Data")));
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 
 builder.Services.AddIdentity<User, Role>()
@@ -113,5 +114,6 @@ app.UseAuthorization();
 //app.UseHttpsRedirection();
 
 app.MapControllers();
+
 
 app.Run();

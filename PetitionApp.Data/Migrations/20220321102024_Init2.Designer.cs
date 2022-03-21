@@ -12,8 +12,8 @@ using PetitionApp.Data;
 namespace PetitionApp.Data.Migrations
 {
     [DbContext(typeof(PetitionAppDbContext))]
-    [Migration("20220320151405_AddIdentity")]
-    partial class AddIdentity
+    [Migration("20220321102024_Init2")]
+    partial class Init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -127,6 +127,78 @@ namespace PetitionApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PetitionApp.Core.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PetitionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetitionId");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Petition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CountVoices")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateOnly>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValue(new DateOnly(2022, 3, 21));
+
+                    b.Property<int>("Goal")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Petitions");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.PetitionTags", b =>
+                {
+                    b.Property<int>("PetitionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PetitionId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PetitionTags");
+                });
+
             modelBuilder.Entity("PetitionApp.Core.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -152,6 +224,26 @@ namespace PetitionApp.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("PetitionApp.Core.Models.User", b =>
@@ -219,6 +311,21 @@ namespace PetitionApp.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("PetitionApp.Core.Models.UserPetitions", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("PetitionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "PetitionId");
+
+                    b.HasIndex("PetitionId");
+
+                    b.ToTable("UserPetitions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("PetitionApp.Core.Models.Role", null)
@@ -268,6 +375,85 @@ namespace PetitionApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Image", b =>
+                {
+                    b.HasOne("PetitionApp.Core.Models.Petition", "Petition")
+                        .WithMany("Images")
+                        .HasForeignKey("PetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Petition");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Petition", b =>
+                {
+                    b.HasOne("PetitionApp.Core.Models.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.PetitionTags", b =>
+                {
+                    b.HasOne("PetitionApp.Core.Models.Petition", "Petition")
+                        .WithMany("PetitionTags")
+                        .HasForeignKey("PetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetitionApp.Core.Models.Tag", "Tag")
+                        .WithMany("PetitionTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Petition");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.UserPetitions", b =>
+                {
+                    b.HasOne("PetitionApp.Core.Models.Petition", "Petition")
+                        .WithMany("UserPetitions")
+                        .HasForeignKey("PetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetitionApp.Core.Models.User", "User")
+                        .WithMany("UserPetitions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Petition");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Petition", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("PetitionTags");
+
+                    b.Navigation("UserPetitions");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.Tag", b =>
+                {
+                    b.Navigation("PetitionTags");
+                });
+
+            modelBuilder.Entity("PetitionApp.Core.Models.User", b =>
+                {
+                    b.Navigation("UserPetitions");
                 });
 #pragma warning restore 612, 618
         }

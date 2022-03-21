@@ -15,4 +15,8 @@
     <ProjectReference Include="..\PetitionApp.Core\PetitionApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

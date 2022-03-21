@@ -9,5 +9,9 @@ namespace PetitionApp.Core.Models
 {
     public class User :IdentityUser<Guid>
     {
+        /// <summary>
+        /// Список петиций, за которые проголосовал пользователь
+        /// </summary>
+        public virtual IEnumerable<UserPetitions> UserPetitions { get; set; }
     }
 }
