@@ -22,6 +22,8 @@ namespace PetitionApp.API.DTO
         public int Goal { get; set; }
         public List<Tag> Tags { get; set; }
 
+        public int CountVoices { get; set; }
+
         public DateTime CreatedDate { get; set; }
     }
 }
