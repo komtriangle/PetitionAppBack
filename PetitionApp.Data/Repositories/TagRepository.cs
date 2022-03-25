@@ -47,7 +47,31 @@ namespace PetitionApp.Data.Repositories
             return PetitionContext.PetitionTags.Where(pt => pt.PetitionId == id).Select(pt => pt.Tag);
         }
 
-   
+        public async Task<IEnumerable<Tag>> FindOrCreateTags(IEnumerable<Tag> tags)
+        {
+            foreach (var tag in tags)
+            {
+                var tagInDb = PetitionContext.Tags.FirstOrDefault(t => t.Name == tag.Name);
+                if(tagInDb == null)
+                {
+                    await PetitionContext.Tags.AddAsync(tag);
+                    PetitionContext.SaveChanges();
+                }
+                else
+                {
+                    tag.Id = tagInDb.Id;
+                }
+            }
+            return tags;
+        }
+
+        public async Task CreatePetitionTags(int petitionId, IEnumerable<Tag> tags)
+        {
+            var petitionTags = tags.Select(t => new PetitionTags(petitionId, t.Id));
+            await PetitionContext.PetitionTags.AddRangeAsync(petitionTags);
+        }
+
+
 
     }
 }

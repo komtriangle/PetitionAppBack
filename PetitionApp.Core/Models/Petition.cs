@@ -10,6 +10,11 @@ namespace PetitionApp.Core.Models
     {
         public int Id { get; set; }
 
+
+        /// <summary>
+        /// Идентификатор автора статьи
+        /// </summary>
+        public Guid AuthorId { get; set; }
         /// <summary>
         /// Автор петиции
         /// </summary>
@@ -51,11 +56,11 @@ namespace PetitionApp.Core.Models
         /// <summary>
         /// Теги
         /// </summary>
-        public virtual IEnumerable<PetitionTags> PetitionTags { get; set; }
+        public virtual ICollection<PetitionTags> PetitionTags { get; set; }
 
         /// <summary>
         /// Пользователи, проголосовавший за эту петицию
         /// </summary>
-        public virtual  IEnumerable<UserPetitions> UserPetitions { get; set; }
+        public virtual ICollection<UserPetitions> UserPetitions { get; set; }
     }
 }

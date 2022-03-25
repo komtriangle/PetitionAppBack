@@ -31,5 +31,13 @@ namespace PetitionApp.Core.Models
         /// Тег
         /// </summary>
         public virtual Tag Tag { get; set; }
+
+        public PetitionTags() { }
+
+        public PetitionTags(int petitionId, int tagId)
+        {
+            PetitionId = petitionId;
+            TagId = tagId;
+        }
     }
 }

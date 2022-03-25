@@ -1,4 +1,5 @@
-﻿using PetitionApp.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PetitionApp.Core.Models;
 using PetitionApp.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,12 @@ namespace PetitionApp.Data.Repositories
             return image;
         }
 
-        public async Task<IEnumerable<Tag>> AddTagsToPetition(Petition petition, IEnumerable<Tag> tags)
+        public Task<Image> AddImageToPetitionAsync(Petition petition, Image image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Tag>> AddTagsToPetitionAsync(Petition petition, IEnumerable<Tag> tags)
         {
             List<PetitionTags> tagsList = new List<PetitionTags>();
             foreach(Tag tag in tags)
@@ -40,6 +46,13 @@ namespace PetitionApp.Data.Repositories
             }
             await PetitionContext.PetitionTags.AddRangeAsync(tagsList);
             return tags;
+        }
+
+
+        public async Task AddVoiceAsync(Petition petition, User user)
+        {
+            UserPetitions up = new UserPetitions() { PetitionId = petition.Id, UserId = user.Id };
+            await PetitionContext.UserPetitions.AddAsync(up);
         }
 
         public async Task<Petition> CreateAsync(Petition entity)
@@ -72,6 +85,15 @@ namespace PetitionApp.Data.Repositories
         public IEnumerable<Petition> GetVoicesForUser(User user)
         {
             return PetitionContext.UserPetitions.Where(up => up.UserId == user.Id).Select(up => up.Petition);
+        }
+
+        public IEnumerable<Petition> GetTopPetitions(int count)
+        {
+            return PetitionContext.Petitions
+                .Include(p => p.Author)
+                .Include(p => p.PetitionTags)
+                .ThenInclude(p => p.Tag)
+                .OrderByDescending(p => p.CountVoices).Take(count);
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PetitionApp.API.Configuration;
-using PetitionApp.API.Models;
+using PetitionApp.API.DTO;
 using PetitionApp.Core.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -29,7 +29,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody]RegisterModel register)
+        public async Task<IActionResult> Register([FromBody]RegisterDTO register)
         {
             var user = _mapper.Map<User>(register);
             var creatingResult =  await _userManager.CreateAsync(user, register.Password);
@@ -43,7 +43,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginModel login)
+        public async Task<IActionResult> Login([FromBody]LoginDTO login)
         {
             var user = _userManager.Users.SingleOrDefault(user => user.UserName == login.UserName);
 

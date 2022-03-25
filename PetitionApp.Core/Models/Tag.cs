@@ -18,6 +18,6 @@ namespace PetitionApp.Core.Models
         /// <summary>
         /// Петиции, у которых есть этот тег
         /// </summary>
-        public virtual IEnumerable<PetitionTags> PetitionTags { get; set; }
+        public virtual ICollection<PetitionTags> PetitionTags { get; set; }
     }
 }

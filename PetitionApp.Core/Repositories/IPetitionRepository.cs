@@ -11,10 +11,14 @@ namespace PetitionApp.Core.Repositories
     {
         Petition GetByIdAdync(int Id);
 
+        IEnumerable<Petition> GetTopPetitions(int count);
+
         IEnumerable<Petition> GetVoicesForUser(User user);
         IEnumerable<Petition> GetPetitionsByAuthor(User user); 
 
-        Task<Image> AddImageToPetition(Petition petition, Image image);
-        Task<IEnumerable<Tag>> AddTagsToPetition(Petition petition, IEnumerable<Tag> tags);
+        Task<Image> AddImageToPetitionAsync(Petition petition, Image image);
+        Task<IEnumerable<Tag>> AddTagsToPetitionAsync(Petition petition, IEnumerable<Tag> tags);
+
+        Task AddVoiceAsync(Petition petition, User user);
     }
 }

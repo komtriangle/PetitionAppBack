@@ -1,6 +1,6 @@
-﻿namespace PetitionApp.API.Models
+﻿namespace PetitionApp.API.DTO
 {
-    public class RegisterModel
+    public class RegisterDTO
     {
         public string UserName { get; set; }
         public string Email { get; set; }
