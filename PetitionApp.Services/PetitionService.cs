@@ -27,11 +27,23 @@ namespace PetitionApp.Services
 
         public async Task<Petition> CreateAsync(Petition petition, IEnumerable<Tag> tags)
         {
-            var tagsInDb =  await _unitOfWork.tag.FindOrCreateTags(tags);
-            await _unitOfWork.petition.CreateAsync(petition);
-            await _unitOfWork.CommitAsync();
-            await _unitOfWork.tag.CreatePetitionTags(petition.Id, tags);
-            await _unitOfWork.CommitAsync();
+            var IsDublicate = _unitOfWork.petition.Find(p => p.Title == petition.Title).FirstOrDefault() != null;
+            if (IsDublicate)
+            {
+                throw new Exception("Петиция с таким заголовком уже есть");
+            }
+            try
+            {
+                var tagsInDb = await _unitOfWork.tag.FindOrCreateTags(tags);
+                await _unitOfWork.petition.CreateAsync(petition);
+                await _unitOfWork.CommitAsync();
+                await _unitOfWork.tag.CreatePetitionTags(petition.Id, tags);
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("При создании петиции произошла ошибка");
+            }
             return petition;
         }
 

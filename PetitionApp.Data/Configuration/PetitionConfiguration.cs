@@ -17,6 +17,10 @@ namespace PetitionApp.Data.Configuration
                 .HasKey(x => x.Id);
 
             builder
+                .HasIndex(u => u.Title)
+                .IsUnique();
+
+            builder
                 .Property(x => x.Id)
                 .UseIdentityColumn();
 

@@ -41,7 +41,14 @@ namespace PetitionApp.API.Controllers
 
             var petition = _mapper.Map<Petition>(createPetitionDTO);
             petition.AuthorId =  Guid.Parse(userid);
-            await _petitionService.CreateAsync(petition, tags);
+            try
+            {
+                await _petitionService.CreateAsync(petition, tags);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             var petitionDTO = _mapper.Map<PetitionDTO>(petition);
             return Ok(petitionDTO);
