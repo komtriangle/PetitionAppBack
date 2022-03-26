@@ -9,7 +9,7 @@ namespace PetitionApp.Core.Repositories
 {
     public interface IPetitionRepository: IRepository<Petition> 
     {
-        Petition GetByIdAdync(int Id);
+        Petition GetById(int Id);
 
         IEnumerable<Petition> GetTopPetitions(int count);
 

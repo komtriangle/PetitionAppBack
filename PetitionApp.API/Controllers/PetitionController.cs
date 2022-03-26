@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetitionApp.API.DTO;
+using PetitionApp.API.Validators;
 using PetitionApp.Core.Models;
 using PetitionApp.Core.Services;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,8 +29,12 @@ namespace PetitionApp.API.Controllers
         [Route("CreatePetition")]
         public async Task<IActionResult> CreatePetiiton([FromBody] CreatePetitionDTO createPetitionDTO)
         {
-            //Validate 
-           
+            var validationResult = new CreatePetitionValidator().Validate(createPetitionDTO);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(string.Join("; ", validationResult.Errors));
+            }
             var tags = createPetitionDTO.Tags.Select(t => new Tag() { Name = t}).ToList();
 
             var userid = User.Claims.FirstOrDefault(c => c.Properties.Any(p => p.Value == JwtRegisteredClaimNames.Sub))?.Value;
@@ -49,6 +54,25 @@ namespace PetitionApp.API.Controllers
             var a = _petitionService.GetTopPetitions(count);
             var petitionDTOs = _petitionService.GetTopPetitions(count).Select(p => _mapper.Map<PetitionDTO>(p));
             return Ok(petitionDTOs);
+        }
+
+        [HttpDelete]
+        [Route("DeletePetition")]
+        public async Task<IActionResult> DeletePetition(int petitionId)
+        {
+            if (petitionId < 0)
+            {
+                return BadRequest("Id петиции должно быть больше или равно нулю");
+            }
+            try
+            {
+                await _petitionService.DeletePetition(petitionId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(petitionId); 
         }
 
 

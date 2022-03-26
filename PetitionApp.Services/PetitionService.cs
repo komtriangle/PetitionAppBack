@@ -35,8 +35,13 @@ namespace PetitionApp.Services
             return petition;
         }
 
-        public async Task DeletePetition(Petition petition)
+        public async Task DeletePetition(int petitionId)
         {
+            var petition = _unitOfWork.petition.GetById(petitionId);
+            if(petition == null)
+            {
+                throw new ArgumentException("Петиции с таким Id нет");
+            }
             _unitOfWork.petition.Delete(petition);
             await _unitOfWork.CommitAsync();
 

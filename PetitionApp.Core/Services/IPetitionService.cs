@@ -11,7 +11,7 @@ namespace PetitionApp.Core.Services
     public  interface IPetitionService
     {
         Task<Petition> CreateAsync(Petition petition, IEnumerable<Tag> tags);
-        Task DeletePetition(Petition petition);
+        Task DeletePetition(int petitionId);
         Task<Petition> UpdatePetition(Petition petition);
         Task AddVoice(Petition petition, User user);
 

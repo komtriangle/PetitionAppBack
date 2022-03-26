@@ -72,7 +72,7 @@ namespace PetitionApp.Data.Repositories
             return PetitionContext.Petitions.Where(predicate);
         }
 
-        public Petition GetByIdAdync(int Id)
+        public Petition GetById(int Id)
         {
             return PetitionContext.Petitions.SingleOrDefault(pet => pet.Id == Id);
         }
