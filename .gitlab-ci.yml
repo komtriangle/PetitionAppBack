@@ -21,4 +21,5 @@ deploy:
     - master
   script:
     - docker-compose up -d --build
+  environment: master
   when: manual
