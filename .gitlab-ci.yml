@@ -12,7 +12,8 @@ test:
   only:
     - deploy
     - master
-  script: echo run tests in this section
+  script:
+    - echo run tests in this section
 
 deploy:
   stage: deploy
