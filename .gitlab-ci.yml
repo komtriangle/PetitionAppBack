@@ -1,24 +1,23 @@
-image: mcr.microsoft.com/dotnet/aspnet:6.0
+image: docker
+
+service:
+  - docker:dind
 
 stages:
-  - build
   - test
   - deploy
 
-before_script:
-  - $PSVersionTable.PSVersion
-  - dotnet --version
-  - nuget help | select-string Version
-
-build job:
-  stage: build
-  script:
-    - dotnet build -c Release
-  tags:
-    - windows
+test:
+  stage: test
   only:
-    - merge_requests
+    - deploy
     - master
-  artifacts:
-    paths:
-      - path/to/binaries
+  script: echo run tests in this section
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker-compose up -d --build
+  when: manual
