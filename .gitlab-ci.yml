@@ -10,7 +10,7 @@ stages:
 test:
   stage: test
   only:
-    - develop
+    - deploy
     - master
   script:
     - echo run tests in this section
