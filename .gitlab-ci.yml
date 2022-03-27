@@ -27,6 +27,7 @@ step-deploy-prod:
     - master
   script:
     - uname -a
+    - echo -e 'FROM nginx:alpine\nEXPOSE 80\nCOPY /build /usr/share/nginx/html\nCMD ["nginx","-g","daemon off;"]' > Dockerfile
     - docker-compose build --no-cache
     - docker-compose up -d
     - docker-compose ps
