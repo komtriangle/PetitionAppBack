@@ -9,5 +9,6 @@ namespace PetitionApp.Data.Configuration
     public class AppSettings
     {
         public string DbConnection { get; set; }
+        public string NLogConfigFile { get; set; }
     }
 }

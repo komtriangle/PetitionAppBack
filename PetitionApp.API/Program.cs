@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog.Extensions.Logging;
 using PetitionApp.API.Configuration;
 using PetitionApp.Core.Models;
 using PetitionApp.Core.Repositories;
@@ -25,6 +26,11 @@ AppSettings appSettings = configuration.GetSection("AppSettings").Get<AppSetting
 
 AuthSettings authSettings = configuration.GetSection("AuthSettings").Get<AuthSettings>();
 builder.Services.Configure<AuthSettings>(configuration.GetSection("AuthSettings"));
+
+builder.Services.AddLogging(logger =>
+{
+    logger.AddNLog(appSettings.NLogConfigFile);
+});
 
 
 // Add services to the container.

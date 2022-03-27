@@ -19,13 +19,15 @@ namespace PetitionApp.API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IOptions<AuthSettings> _authSettings;
+        private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public AuthController(IMapper mapper, UserManager<User> userManager, IOptions<AuthSettings> authSettings)
+        public AuthController(IMapper mapper, UserManager<User> userManager, IOptions<AuthSettings> authSettings, ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _authSettings = authSettings;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost("Register")]

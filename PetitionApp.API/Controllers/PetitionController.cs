@@ -17,11 +17,13 @@ namespace PetitionApp.API.Controllers
 
         private readonly IPetitionService _petitionService;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public PetitionController(IPetitionService petitionService, IMapper mapper)
+        public PetitionController(IPetitionService petitionService, IMapper mapper, ILogger<PetitionController> logger)
         {
             _petitionService = petitionService;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
