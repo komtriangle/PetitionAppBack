@@ -23,5 +23,6 @@ step-deploy-prod:
     - apk add --no-cache docker-compose
     - docker-compose build --no-cache
     - docker-compose up -d
+    - docker compose ps
   environment: master
   when: manual
