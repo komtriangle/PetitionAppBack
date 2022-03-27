@@ -38,9 +38,10 @@ namespace PetitionApp.API.Controllers
 
             if (creatingResult.Succeeded)
             {
+                _logger.LogInformation("Created user with username: {0}", user.UserName);
                 return Created(String.Empty, String.Empty);
             }
-
+            _logger.LogError("Error while registering new user: {0}", creatingResult.Errors.First().Description);
             return Problem(creatingResult.Errors.First().Description, null, 500);
         }
 
@@ -51,6 +52,7 @@ namespace PetitionApp.API.Controllers
 
             if(user == null)
             {
+                _logger.LogError("User with username: {0} not found", user?.UserName);
                 return NotFound("User not found");
             }
 
@@ -58,10 +60,12 @@ namespace PetitionApp.API.Controllers
 
             if (loginResult)
             {
+                _logger.LogInformation("User with username: {0}  logIn", user.UserName);
                 var token = GenerateJWT(user);
                 return Ok(new { jwt_token = token });
             }
 
+            _logger.LogError("Failed login with username: {0}. Incorrect data", user.UserName);
             return BadRequest("Login or password incorrect");
         }
 
@@ -75,10 +79,14 @@ namespace PetitionApp.API.Controllers
             {
                 var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
                 if(user != null){
+                    _logger.LogInformation("Token for user: {0}  refreshed", user.UserName);
                     var token = GenerateJWT(user);
                     return Ok( new { jwt_token = token});
                 }
+                _logger.LogError("Failed attemp to refresh token for user: {0}", user?.UserName);
             }
+
+            
             return Unauthorized();
         }
 
@@ -103,7 +111,7 @@ namespace PetitionApp.API.Controllers
                 expires: DateTime.Now.AddTicks(_authSettings.Value.TokenLifeTime.Ticks),
                 signingCredentials: creds
                 );
-
+            _logger.LogInformation("Generated token for user: {0}", user.UserName);
             return new JwtSecurityTokenHandler().WriteToken(token);
 
         }

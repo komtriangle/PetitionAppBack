@@ -29,6 +29,7 @@ builder.Services.Configure<AuthSettings>(configuration.GetSection("AuthSettings"
 
 builder.Services.AddLogging(logger =>
 {
+    //logger.AddFilter("*EntityFrameworkCore*", LogLevel.Warning);
     logger.AddNLog(appSettings.NLogConfigFile);
 });
 
