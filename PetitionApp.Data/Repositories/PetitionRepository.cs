@@ -95,5 +95,12 @@ namespace PetitionApp.Data.Repositories
                 .ThenInclude(p => p.Tag)
                 .OrderByDescending(p => p.CountVoices).Take(count);
         }
+
+        public IEnumerable<Petition> GetPetitionsByTags(IEnumerable<Tag> tags)
+        {
+            //Список Id тегов
+            var tagIds = tags.Select(tag => tag.Id).ToList();
+            return PetitionContext.PetitionTags.Where(pt => tagIds.Contains(pt.TagId)).Select(pt => pt.Petition);
+        }
     }
 }

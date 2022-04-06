@@ -34,7 +34,7 @@ namespace PetitionApp.Services
             }
             try
             {
-                var tagsInDb = await _unitOfWork.tag.FindOrCreateTags(tags);
+                var tagsInDb = await _unitOfWork.tag.FindOrCreateTags(tags.ToList());
                 await _unitOfWork.petition.CreateAsync(petition);
                 await _unitOfWork.CommitAsync();
                 await _unitOfWork.tag.CreatePetitionTags(petition.Id, tags);
@@ -78,5 +78,19 @@ namespace PetitionApp.Services
         {
              return _unitOfWork.petition.GetTopPetitions(count);
         }
+
+        public async Task<IEnumerable<Petition>> GetPetitionsByTags(IEnumerable<Tag> tags)
+        {
+            try
+            {
+                var tagsWithIds = await _unitOfWork.tag.FindOrCreateTags(tags.ToList());
+                return _unitOfWork.petition.GetPetitionsByTags(tagsWithIds);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Ошибка по время получения списка петиций");
+            }
+        }
+
     }
 }

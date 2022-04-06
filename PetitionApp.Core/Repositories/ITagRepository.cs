@@ -17,7 +17,7 @@ namespace PetitionApp.Core.Repositories
         /// </summary>
         /// <param name="tags">Список тегов статьи без идентификаторов</param>
         /// <returns>Список тегов с идентификаторами</returns>
-        Task<IEnumerable<Tag>> FindOrCreateTags(IEnumerable<Tag> tags);
+        Task<IEnumerable<Tag>> FindOrCreateTags(IList<Tag> tags);
 
         Task CreatePetitionTags(int petitionId, IEnumerable<Tag> tags);
 

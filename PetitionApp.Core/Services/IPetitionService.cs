@@ -20,5 +20,7 @@ namespace PetitionApp.Core.Services
         IEnumerable<Petition> FindPetitions(Expression<Func<Petition, bool>> predicate);
 
         IEnumerable<Petition> GetTopPetitions(int count);
+
+        Task<IEnumerable<Petition>> GetPetitionsByTags(IEnumerable<Tag> tags);
     }
 }

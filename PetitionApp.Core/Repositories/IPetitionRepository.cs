@@ -20,5 +20,7 @@ namespace PetitionApp.Core.Repositories
         Task<IEnumerable<Tag>> AddTagsToPetitionAsync(Petition petition, IEnumerable<Tag> tags);
 
         Task AddVoiceAsync(Petition petition, User user);
+
+        IEnumerable<Petition> GetPetitionsByTags(IEnumerable<Tag> tags);
     }
 }

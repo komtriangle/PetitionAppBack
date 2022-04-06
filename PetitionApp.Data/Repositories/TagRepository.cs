@@ -47,19 +47,19 @@ namespace PetitionApp.Data.Repositories
             return PetitionContext.PetitionTags.Where(pt => pt.PetitionId == id).Select(pt => pt.Tag);
         }
 
-        public async Task<IEnumerable<Tag>> FindOrCreateTags(IEnumerable<Tag> tags)
+        public async Task<IEnumerable<Tag>> FindOrCreateTags(IList<Tag> tags)
         {
-            foreach (var tag in tags)
+            for(int i = 0; i < tags.Count(); i++)
             {
-                var tagInDb = PetitionContext.Tags.FirstOrDefault(t => t.Name == tag.Name);
+                var tagInDb = PetitionContext.Tags.FirstOrDefault(t => t.Name == tags[i].Name);
                 if(tagInDb == null)
                 {
-                    await PetitionContext.Tags.AddAsync(tag);
+                    await PetitionContext.Tags.AddAsync(tags[i]);
                     PetitionContext.SaveChanges();
                 }
                 else
                 {
-                    tag.Id = tagInDb.Id;
+                    tags[i].Id = tagInDb.Id;
                 }
             }
             return tags;
@@ -70,8 +70,6 @@ namespace PetitionApp.Data.Repositories
             var petitionTags = tags.Select(t => new PetitionTags(petitionId, t.Id));
             await PetitionContext.PetitionTags.AddRangeAsync(petitionTags);
         }
-
-
 
     }
 }

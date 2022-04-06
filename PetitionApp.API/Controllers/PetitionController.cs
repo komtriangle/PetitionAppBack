@@ -6,10 +6,11 @@ using PetitionApp.API.Validators;
 using PetitionApp.Core.Models;
 using PetitionApp.Core.Services;
 using System.IdentityModel.Tokens.Jwt;
+//using System.Web.Http;
 
 namespace PetitionApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     [Authorize]
     public class PetitionController :ControllerBase
@@ -28,7 +29,7 @@ namespace PetitionApp.API.Controllers
 
 
         [HttpPost]
-        [Route("CreatePetition")]
+        [Route("Petition")]
         public async Task<IActionResult> CreatePetiiton([FromBody] CreatePetitionDTO createPetitionDTO)
         {
             _logger.LogInformation("Start creating new petition with name: {0}", createPetitionDTO?.Title);
@@ -61,7 +62,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpGet]
-        [Route("Petitions")]
+        [Route("Petitions/{count}")]
         public IActionResult Petitions(int count)
         {
             try
@@ -78,7 +79,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletePetition")]
+        [Route("Petitions")]
         public async Task<IActionResult> DeletePetition(int petitionId)
         {
             _logger.LogInformation("Start deleting petition with Id: {0}", petitionId);
@@ -98,6 +99,24 @@ namespace PetitionApp.API.Controllers
                 return BadRequest(ex.Message);
             }
             return Ok(petitionId); 
+        }
+
+        [HttpGet]
+        [Route("Petitions")]
+        public async Task<IActionResult> GetPetitionsByTags([FromQuery] string[] tags)
+        {
+            _logger.LogInformation($"Gettings list of petitions with tags: {string.Join(", ", tags)}");
+            try
+            {
+                var petitions = (await _petitionService.GetPetitionsByTags(tags.Select(tag => new Tag() { Name = tag })))
+                    .Select(p => _mapper.Map<PetitionDTO>(p));
+                _logger.LogInformation($"Petitions with tags: {string.Join(", ", tags)} received. Count: {petitions.Count()}");
+                return Ok(petitions);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace PetitionApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     [Authorize]
     public class VoiceController: ControllerBase
@@ -28,7 +28,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddVoice")]
+        [Route("Voice")]
         public async Task<IActionResult> AddVoice([FromBody] AddRemoveVoiceDTO voiceDTO)
         {
 
@@ -58,7 +58,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteVoice")]
+        [Route("Voices")]
         public async Task<IActionResult> DeleteVoice([FromBody] AddRemoveVoiceDTO voiceDTO)
         {
             var userid = User.Claims.FirstOrDefault(c => c.Properties.Any(p => p.Value == JwtRegisteredClaimNames.Sub))?.Value;
@@ -87,7 +87,7 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpGet]
-        [Route("IsVoiced")]
+        [Route("Voices/IsVoiced")]
         public async Task<IActionResult> IsVoiced(int petitionId)
         {
 
