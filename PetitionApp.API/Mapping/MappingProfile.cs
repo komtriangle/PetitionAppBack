@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PetitionApp.API.DTO;
+using PetitionApp.API.DTO.Voice;
 using PetitionApp.Core.Models;
 
 namespace PetitionApp.API.Mapping
@@ -19,6 +20,8 @@ namespace PetitionApp.API.Mapping
                 .ForMember("CreatedDate", opt => opt.MapFrom(c => DateTime.Parse(c.CreationDate.ToString())))
                 .ForMember("Tags", opt => opt.MapFrom(c => c.PetitionTags.Select(t => new Tag() { Id = t.TagId, Name = t.Tag.Name })))
                 .ForMember("Author", opt => opt.MapFrom(c => new UserDTO() { Id = c.Author.Id, UserName = c.Author.UserName }));
+
+            CreateMap<VoiceDTO, UserPetitions>();
         }
     }
 }

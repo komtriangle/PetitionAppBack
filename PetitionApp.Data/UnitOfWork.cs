@@ -14,6 +14,7 @@ namespace PetitionApp.Data
         private PetitionAppDbContext _context;
         private ITagRepository _tagRepository;
         private IPetitionRepository _petitionRepository;
+        private IVoiceRepository _voiceRepository;
 
         public UnitOfWork(PetitionAppDbContext context)
         {
@@ -22,6 +23,7 @@ namespace PetitionApp.Data
 
         public IPetitionRepository petition => _petitionRepository = _petitionRepository ?? new PetitionRepository(_context);
         public ITagRepository tag  => _tagRepository = _tagRepository ?? new TagRepository(_context);
+        public IVoiceRepository voice => _voiceRepository = _voiceRepository ?? new VoiceRepository(_context);
 
 
         public async Task<int> CommitAsync()

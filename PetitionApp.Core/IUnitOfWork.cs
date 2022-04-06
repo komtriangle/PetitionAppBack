@@ -11,6 +11,7 @@ namespace PetitionApp.Core.Repositories
     {
         IPetitionRepository petition { get; }
         ITagRepository tag { get; }
+        IVoiceRepository voice { get; }
         Task<int> CommitAsync();
     }
 }

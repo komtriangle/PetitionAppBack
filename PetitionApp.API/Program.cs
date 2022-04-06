@@ -13,6 +13,7 @@ using PetitionApp.Core.Services;
 using PetitionApp.Data;
 using PetitionApp.Data.Configuration;
 using PetitionApp.Services;
+using PetitionApp.Services.Validators;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
@@ -67,9 +68,11 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddScoped<UserPetitionValidator>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPetitionService, PetitionService>();
+builder.Services.AddScoped<IVoiceService, VoiceService>();
+
 
 builder.Services.AddDbContext<PetitionAppDbContext>(options => options.UseNpgsql(appSettings.DbConnection, x => x.MigrationsAssembly("PetitionApp.Data")));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
