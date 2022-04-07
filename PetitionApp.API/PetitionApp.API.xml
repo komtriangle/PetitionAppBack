@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PetitionApp.API</name>
+    </assembly>
+    <members>
+        <member name="T:PetitionApp.API.Controllers.AuthController">
+            <summary>
+            Регистрация, авторизация пользователей
+            </summary>
+        </member>
+        <member name="M:PetitionApp.API.Controllers.PetitionController.Petitions(System.Int32)">
+            <summary>
+            Get list of petitions
+            </summary>
+            <param name="count">Count petitions in response</param>
+            <returns></returns>
+        </member>
+        <member name="M:PetitionApp.API.Controllers.PetitionController.GetPetitionsByTags(System.String[])">
+            <summary>
+            Get list of petitions containing tags
+            </summary>
+            <param name="tags">Tags that should be in petitions</param>
+            <returns></returns>
+        </member>
+        <member name="M:PetitionApp.API.Controllers.VoiceController.AddVoice(PetitionApp.API.DTO.Voice.AddRemoveVoiceDTO)">
+            <summary>
+            Add voice to petition
+            </summary>
+            <param name="voiceDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PetitionApp.API.Controllers.VoiceController.DeleteVoice(PetitionApp.API.DTO.Voice.AddRemoveVoiceDTO)">
+            <summary>
+            Delete voice (if exist) from petition
+            </summary>
+            <param name="voiceDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PetitionApp.API.Controllers.VoiceController.IsVoiced(System.Int32)">
+            <summary>
+            True if current user voiced for the petition
+            </summary>
+            <param name="petitionId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:PetitionApp.API.DTO.CreatePetitionDTO.Goal">
+            <summary>
+            Цель (голоса)
+            </summary>
+        </member>
+        <member name="P:PetitionApp.API.DTO.PetitionDTO.Goal">
+            <summary>
+            Цель (голоса)
+            </summary>
+        </member>
+    </members>
+</doc>

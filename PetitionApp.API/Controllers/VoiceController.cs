@@ -27,8 +27,15 @@ namespace PetitionApp.API.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Add voice to petition
+        /// </summary>
+        /// <param name="voiceDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Voice")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddVoice([FromBody] AddRemoveVoiceDTO voiceDTO)
         {
 
@@ -57,8 +64,15 @@ namespace PetitionApp.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete voice (if exist) from petition
+        /// </summary>
+        /// <param name="voiceDTO"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("Voices")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteVoice([FromBody] AddRemoveVoiceDTO voiceDTO)
         {
             var userid = User.Claims.FirstOrDefault(c => c.Properties.Any(p => p.Value == JwtRegisteredClaimNames.Sub))?.Value;
@@ -86,8 +100,15 @@ namespace PetitionApp.API.Controllers
             }
         }
 
+        /// <summary>
+        /// True if current user voiced for the petition
+        /// </summary>
+        /// <param name="petitionId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Voices/IsVoiced")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> IsVoiced(int petitionId)
         {
 

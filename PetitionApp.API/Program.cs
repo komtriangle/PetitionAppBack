@@ -65,6 +65,9 @@ builder.Services.AddSwaggerGen(opt =>
             new List<string>()
         }
     });
+
+    var filePath = Path.Combine(System.AppContext.BaseDirectory, "PetitionApp.API.xml");
+    opt.IncludeXmlComments(filePath);
 });
 
 builder.Services.AddAutoMapper(typeof(Program));

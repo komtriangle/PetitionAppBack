@@ -30,6 +30,8 @@ namespace PetitionApp.API.Controllers
 
         [HttpPost]
         [Route("Petition")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreatePetiiton([FromBody] CreatePetitionDTO createPetitionDTO)
         {
             _logger.LogInformation("Start creating new petition with name: {0}", createPetitionDTO?.Title);
@@ -61,8 +63,15 @@ namespace PetitionApp.API.Controllers
             return Ok(petitionDTO);
         }
 
+        /// <summary>
+        /// Get list of petitions
+        /// </summary>
+        /// <param name="count">Count petitions in response</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Petitions/{count}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Petitions(int count)
         {
             try
@@ -80,6 +89,8 @@ namespace PetitionApp.API.Controllers
 
         [HttpDelete]
         [Route("Petitions")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeletePetition(int petitionId)
         {
             _logger.LogInformation("Start deleting petition with Id: {0}", petitionId);
@@ -101,8 +112,15 @@ namespace PetitionApp.API.Controllers
             return Ok(petitionId); 
         }
 
+        /// <summary>
+        /// Get list of petitions containing tags
+        /// </summary>
+        /// <param name="tags">Tags that should be in petitions</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Petitions")]
+        [ProducesResponseType(typeof(IEnumerable<Petition>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPetitionsByTags([FromQuery] string[] tags)
         {
             _logger.LogInformation($"Gettings list of petitions with tags: {string.Join(", ", tags)}");

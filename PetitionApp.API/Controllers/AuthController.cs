@@ -13,6 +13,9 @@ using System.Text;
 
 namespace PetitionApp.API.Controllers
 {
+    /// <summary>
+    /// Регистрация, авторизация пользователей
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController: ControllerBase
@@ -31,6 +34,8 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpPost("Register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody]RegisterDTO register)
         {
             var user = _mapper.Map<User>(register);
@@ -46,6 +51,9 @@ namespace PetitionApp.API.Controllers
         }
 
         [HttpPost("Login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody]LoginDTO login)
         {
             var user = _userManager.Users.SingleOrDefault(user => user.UserName == login.UserName);
@@ -66,12 +74,14 @@ namespace PetitionApp.API.Controllers
             }
 
             _logger.LogError("Failed login with username: {0}. Incorrect data", user.UserName);
-            return BadRequest("Login or password incorrect");
+            return Problem("Login or password incorrect", null, StatusCodes.Status401Unauthorized);
         }
 
         [HttpGet]
         [Route("RefreshToken")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult RefreshToken()
         {
             var userid = User.Claims.FirstOrDefault(c => c.Properties.Any(p => p.Value == JwtRegisteredClaimNames.Sub))?.Value;
