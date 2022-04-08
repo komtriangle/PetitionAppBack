@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetitionApp.API", "PetitionApp.API\PetitionApp.API.csproj", "{C9A5105F-9BE5-43CF-94B1-54890C1FF6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetitionApp.API", "PetitionApp.API\PetitionApp.API.csproj", "{C9A5105F-9BE5-43CF-94B1-54890C1FF6A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetitionApp.Core", "PetitionApp.Core\PetitionApp.Core.csproj", "{43529780-0785-4C35-8D41-BA41DB0FB564}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetitionApp.Core", "PetitionApp.Core\PetitionApp.Core.csproj", "{43529780-0785-4C35-8D41-BA41DB0FB564}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetitionApp.Data", "PetitionApp.Data\PetitionApp.Data.csproj", "{272BB641-5F6A-4318-AF1B-B1F0A32B1AE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetitionApp.Data", "PetitionApp.Data\PetitionApp.Data.csproj", "{272BB641-5F6A-4318-AF1B-B1F0A32B1AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetitionApp.Services", "PetitionApp.Services\PetitionApp.Services.csproj", "{6EDABECA-9D37-4426-8B89-ABE1CC83EA0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetitionApp.Services", "PetitionApp.Services\PetitionApp.Services.csproj", "{6EDABECA-9D37-4426-8B89-ABE1CC83EA0B}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E4F15618-3A44-487D-9164-019E61941EF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetitionApp.UnitTests", "PetitionApp.UnitTests\PetitionApp.UnitTests.csproj", "{8D2FE23C-836D-445C-8447-E787467B18DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E4F15618-3A44-487D-9164-019E61941EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4F15618-3A44-487D-9164-019E61941EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4F15618-3A44-487D-9164-019E61941EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2FE23C-836D-445C-8447-E787467B18DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D2FE23C-836D-445C-8447-E787467B18DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D2FE23C-836D-445C-8447-E787467B18DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D2FE23C-836D-445C-8447-E787467B18DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
