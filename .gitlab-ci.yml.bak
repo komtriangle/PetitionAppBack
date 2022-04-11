@@ -1,7 +1,7 @@
-image: docker
+image: docker:20.10.13
 
 services:
-  - docker:dind
+  - docker:20.10.13-dind
 
 stages:
   - test
@@ -15,12 +15,23 @@ test:
   script:
     - echo run tests in this section
 
+before_script:
+  - docker info
+  - apk update
+  - apk upgrade
+  - apk add docker-compose
+
 step-deploy-prod:
   stage: deploy
   only:
     - master
   script:
+    - uname -a
     - docker-compose build --no-cache
     - docker-compose up -d
-  environment: master
+    - docker-compose ps
+    - docker ps
+  environment:
+    name: deploy
+    url: http://213.178.155.140
   when: manual
